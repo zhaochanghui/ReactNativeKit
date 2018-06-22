@@ -1,0 +1,464 @@
+React Native 弹性布局FlexBox
+
+
+
+http://www.cnblogs.com/shaoting/p/5931901.html
+
+React Native 弹性布局FlexBox
+
+React Native采用一中全新的布局方式：FlexBox（弹性布局）。可以很方便的实现各种复杂布局，是全新的针对web和移动开发布局的一种实现方式。
+
+何为FlexBox?
+
+   完整名称为：the flexible box Module,旨在通过弹性的方式来对齐和分布容器中的组件。Flexbuju的主要思想是：让容器有能力让其子项目能够改变其宽度|高度|顺序，以最佳方式填充可用空间。
+
+  在布局中，首先得确定主轴方向(flexDirection)，主轴组件的对齐方式（justifyContent），侧轴组件的对齐方式(alignItems)，通过以上四点可以基本确定布局。
+
+FlexBox属性：
+
+flexDirection:该属性确定了主轴方向，枚举值。
+
+　　　　row         主轴方向为水平，起点在左端。
+
+　　　　row- reverse      主轴方向为水平，起点在右端
+
+　　　　column(默认)　　　　主轴方向为垂直，起点在上端
+
+　　　　column-reverse        主轴方向为垂直，起点在下端
+
+justifyContent:该属性确定了组件在主轴方向上的对齐方式，枚举值。
+
+　　　　flex-start(默认) 　　组件沿着主轴方向的起始位置靠齐。如：假如主轴方向是row的话就是左对齐，是row- reverse的话就是右对齐，是column的话就是上对齐，是　column-reverse的话就是下对齐。
+
+　　　　flex-end            组件沿着主轴方向的结束位置靠齐，和flex-start相反。
+
+　　　　space-between　　组件在主轴方向上两端对齐，其中的间隔相等。
+
+　　　　space-around　　　组件会平均分配在主轴方向上，两端保留一定的位置空间。
+
+alignItems:组件在侧轴方向上的对齐方式。
+　　　　flex-start         组件沿着侧轴上的起点对齐
+
+　　　　flex-end          组件沿着侧轴上的终点对齐
+
+　　　　center　　　  　组价在侧轴方向上居中对齐
+
+　　　　stretch(默认)　 组件在侧轴方向上占满
+
+flexWrap: 是否换行
+
+默认情况下，项目都排列在一条线上，放不下的部分则不放置，flexWap就是定义是否换行的。
+
+　　　　nowrap(默认)　　　不换行
+
+　　　　wrap            换行，第一行在上方
+
+　　　　wrap-reverse  　　换行，第一行在下方
+
+flex:有三个参数，默认参数为 0 1 auto。  第一个参数为flex-grow,第二，第三个为:flex-shrink和flex-basis。
+
+alignSelf:定义单个组件自己的对齐方式，默认为auto。枚举值：auto|flex-start|flex-end|center|baseline|stretch
+
+position：枚举值，absolute绝对定位，relative相对定位
+
+margin:内边距
+
+padding：外边距
+
+
+
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * 周少停 2016-09-12
+ * 弹性布局 flex-box
+ */
+ 
+import React, { Component } from 'react';
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native'
+/**-----------------------------------第一个示例程序----------------------------------------------------- **/
+class Project extends Component {
+  render() { //初始化
+    return (
+      <View style={styles.container}>
+        <Text style={{backgroundColor:'red',height:50}}>第一个</Text>
+        <Text style={{backgroundColor:'blue',height:100}}>第二个</Text>
+        <Text style={{backgroundColor:'green',height:160}}>第三个</Text>
+        <Text style={{backgroundColor:'yellow',height:200}}>第四个</Text>
+      </View>
+    );
+  }
+}
+//样式
+const styles = StyleSheet.create({
+  container: {
+//     flex:1,  //充满全屏,否则内容多少,只显示多少区域.   是'flex-grow''flex-shrink''flex-basis'三个属性的缩写,其中第二个和第三个参数都是可选,默认值是"0 1 auto" 宽度 = 弹性宽度 * (flexGrow/sum(flexGrow))
+//     width:200,
+    height:200,
+    marginTop:20,//上边距
+    backgroundColor:'black',//背景色
+    flexDirection:'row', //React Native 布局采用FlexBox(弹性布局),该属性是设置布局的主轴方向为row:横向(默认方向是竖向:column)
+    justifyContent:'space-between', //定义了伸缩项目在主轴线的对齐方式 flex-start | flex-end | center | space-between | space-around
+    alignItems:'flex-start'    //定义了伸缩项目在侧轴(交叉轴)的对齐方式 flex-start | flex-end | center | baseline | stretch(默认)
+  }
+});
+ 
+/**-----------------------------------第二个示例程序----------------------------------------------------- **/
+class Project1 extends Component {
+  render() { //初始化
+    return (
+      <View style={styles1.container}>
+        <Text style={{backgroundColor:'red',width:200}}>第一个</Text>
+        <Text style={{backgroundColor:'blue',width:300}}>第二个</Text>
+        <Text style={{backgroundColor:'green',width:200}}>第三个</Text>
+        <Text style={{backgroundColor:'yellow',width:200}}>第四个</Text>
+      </View>
+    );
+  }
+}
+const styles1 = StyleSheet.create({
+   container:{
+      backgroundColor:'black',
+      marginTop:20,
+      flexDirection:'row',
+      justifyContent:'flex-start',
+      flexWrap:'wrap' //定义显示不下的显示模式,默认情况下,控件都是在一条线上   wrap换行 nowarp(默认值)不换行 warp-reverse:换行,效果和wrap相反
+   }
+});
+/**-----------------------------------第三个示例程序----------------------------------------------------- **/
+ //alignSelf允许单个项目可以有自己单独的对齐方式
+class Project2 extends Component{
+  render(){
+    return(
+      <View style={styles2.container}>
+        <Text style={{backgroundColor:'red',flex:1,height:50,alignSelf:'center'}}>第一个</Text> 
+        <Text style={{backgroundColor:'blue',flex:2,height:30,alignSelf:'flex-start'}}>第二个</Text>
+        <Text style={{backgroundColor:'green',flex:2,height:70,alignSelf:'flex-end'}}>第三个</Text>
+        <Text style={{backgroundColor:'yellow',flex:1,height:80,alignSelf:'stretch'}}>第四个</Text>
+      </View>
+    );
+  }
+}
+const styles2 = StyleSheet.create({
+   container:{
+     backgroundColor:'black',
+     marginTop:20,
+     flexDirection:'row'
+   }
+});
+ 
+AppRegistry.registerComponent('Project', () => Project2);  //注册
+　　完整源码下载：https://github.com/pheromone/React-Native-1
+
+分类: React Native
+
+
+
+
+
+
+
+
+
+
+https://blog.csdn.net/a38017032/article/details/55656830
+
+
+
+2.React Native Flex布局介绍以及实践
+2017年02月18日 10:44:29
+阅读数：854
+好久没有写博客，一直在用自己的印象笔记记录一些问题。2017年了，想重新的把博客写起来。也希望通过这个平台交一些朋友。
+没有具体的介绍基本的语法，主要是说明了与标准的CSS Flex的一些区别以及一个实战的例子。如果你想学好Flex布局还是应该多多的写一些Demo。
+
+基本介绍
+
+Flex(弹性)布局是一种普遍使用于网页的布局方式，现在在移动端也有一些尝试(Android端Flex布局)。React Native基本的布局方式就是使用的Flex布局。
+
+基本概念
+
+main aixs，代表的是一条主要的轴线，布局会按照主轴的方向来展开。例如，主轴的方向是'row'，意思就是会在水平方向布局。
+
+cross aixs，与main aixs垂直的另外一条轴线。可以控制在这条轴线上的对齐方式。
+
+命令方式：驼峰式的。正确：flexDirection。错误：flex-direction。React Native中的尺寸都是与密度无关的像素(independent pixels)。
+
+Group属性
+
+这种叫法(Android叫法)不是很准确，意思是一个盒子里面可以放一些东西，Group属性就是定义这个盒子的属性。
+
+flexDirection('row', 'row-reverse', 'column', 'column-reverse'):主轴的方向，就像在盒子里面放东西的顺序，例如定义为'row'，放完第一个东西以后，第二个就需要和第一个在同一行。
+justifyContent('flex-start', 'flex-end', 'center', 'space-between', 'space-around'):主轴的对齐方式，例如，在主轴方向为'row'时，justifyContent就能改变盒子里面东西的排列方式，例如'flex-end'意思是盒子里面的东西排列在一行的最末尾。
+flexWrap('wrap','nowrap'):主轴上位置超过了容纳区域时换行方式。例如，在主轴方向为'row'时，一行放不下了，设置'wrap'就会换到下一行。
+alignItems('flex-start', 'flex-end', 'center', 'stretch'):交叉轴的对齐方式，例如，在主轴方向为'row'时，在交叉轴上的就是按照'columen'排列的，这个属性就是控制交叉轴的对齐方式，例如'center'就会展示在竖直方向的中间。
+看了下CSS中Flex布局的内容，相对而言React Native简化了一些，还有flex-flow和align-content在React Native中没有。
+
+Child属性
+
+同样这种叫法(Android叫法)不是很准确，意思是一个盒子里面可以放一些东西，Child属性就是定义放在盒子里面东西的属性。
+
+flex(number):不同于CSS标准，React Native中flex只能是数字。如果是正整数，就是与数字的大小成比例。如果为0就是自生的大小，并且不能扩展。如果为-1，会展示自生的大小，并且当空间不够的时候会缩小到minWidth/minHeight。
+flexGrow(number):定义child的放大属性，当还有空余的空间的时候设置有效，数字越大占比越大。
+flexShrink(number):定义了child的缩小属性，当child展示超过了空间的时候设置有效，跟flexGrow用户比较的类似。
+flexBasis(number):flexDirection为row的时候用来设置width属性。flexDirection为column的时候用来设置width属性。
+alignSelf('auto', 'flex-start', 'flex-end', 'center', 'stretch'):可以覆盖掉alignItems属性，不设置具体的width/height的时候'stretch'才有效果。
+相比于CSS的标准，没有了order属性以及flex属性对应的意思不一样。
+
+其它属性
+
+aspectRatio(number):用来表示宽高比，React Native独有。是一个很好的属性，例如知道了图片展示的比例，宽度是屏幕宽度，这样就不需要计算宽度再计算高度，只需要设置一下就行了。
+position('absolute', 'relative'): 代表的是位置信息，默认是'relative'。如果设置了'absolute'就代表是一个绝对的位置，然后可以使用一个其它的属性(left、right等等)来固定展示在屏幕某个地方。
+overflow('visible', 'hidden', 'scroll'):当child溢出了它的Group的时候展示的样式。
+zIndex(number):数字比较大就展示在上面。有一些特殊的用途可能会使用到。下面代码text1就会展示在text2上面。
+  text1: {
+      fontSize: 14,
+      backgroundColor: '#0f0',
+      marginLeft: 20,
+      height: 25,
+      position: 'absolute',
+      zIndex: 3,  // 展示在text2上面
+  },
+  text2: {
+      fontSize: 14,
+      backgroundColor: '#f00',
+      left: 10,
+      borderWidth: 20,
+      position: 'absolute',        
+      zIndex: 2,
+  },
+
+
+其它：margin、padding、border、left、top、right、bottom、maxWidth、maxHeight、minWidth、minHeight以及衍生出来的marginLeft、marginRight等等就不细说了。可以看看下面的图片。
+
+ 
+布局中一些概念区分 
+实战
+
+参考PPTV聚力视频里面的电影介绍，来用React Native实现。
+
+
+ 
+实战参考 
+直接写代码了。
+
+import React, {Component} from 'react';
+import {
+    StyleSheet,
+    Image,
+    Button,
+    Text,
+    View,
+} from 'react-native';
+
+export default class MovieInfo extends Component{
+
+    _onPress(){
+    }
+
+    render(){
+         return(
+            <View style={styles.container}>
+                {/*
+                整体是一个'column'样式的，然后中间的介绍是一个'row'样式的，图片右边又是一个
+                'column'样式的，每一行区分出来又是'row'样式的。
+                */}
+                <Text style={styles.brifeText}>简介</Text>
+                <View style={styles.moviewBrifeContainer}>
+                    <Image style={styles.movieImage} source={{uri:"http://pic4.qiyipic.com/image/20161222/d2/59/a_100039885_m_601_180_236.jpg"}}></Image>
+                    <View style={styles.movieInfo}> 
+                        <View style={styles.movieDirector}>
+                            <Text style={styles.movieDirectorTitle}>导演：</Text>
+                            <Text style={styles.movieDirectorText}>路飞</Text>
+                        </View>
+                        <View style={styles.movieActor}>
+                            <Text style={styles.movieActorTitle}>主演：山下智久,长泽雅美，新垣结衣</Text>
+                            <Text style={styles.movieActorText}></Text>
+                        </View>
+                        <View style={styles.movieType}>
+                            <Text style={styles.movieTypeTitle}>类型：日漫，热血</Text>
+                            <Text style={styles.movieTypeText}></Text>
+                        </View>
+                        <View style={styles.movieArea}>
+                            <Text style={styles.movieAreaTitle}>地区：日本</Text>
+                            <Text style={styles.movieAreaText}></Text>
+                        </View>
+                        <View style={styles.movieYear}>
+                            <Text style={styles.movieYearTitle}>年代：1999</Text>
+                            <Text style={styles.movieYearText}></Text>
+                        </View>
+                        <View style={styles.movieSource}>
+                            <View style={styles.movieSource2}>
+                                <Text style={styles.movieSourceTitle}>评分：</Text>
+                                <Text style={styles.movieSourceText}>9.1</Text>
+                            </View>
+                            <Button 
+                                onPress={this._onPress.bind(this)} 
+                                style={styles.movieSourceButton} 
+                                color='#ff9313'
+                                title="我要评分"
+                                accessibilityLabel="Learn more about purple"></Button>
+                        </View>
+                    </View>
+                </View>
+                <Text style={styles.detailText}>有个男人他拥有世界上切财富、名望和权势，他就是「海盗王」高路德•罗杰。 在临死前说过这样一句话：让全世界的人都奔向大海 「想要我的财宝吗？想要的话全就拿去吧……！你们去找吧！我把世界上的一切都放在那里了」。 后来世界上的人们将这个宝藏称作“一个大秘宝”（One Piece），许多人为了争夺大秘宝One Piece，无数海盗扬起旗帜，互相斗争，后来就形成了「大海盗时代」。 主角蒙奇•D•路飞在遥远的路途上找寻着志同道合的伙伴，携手共进「伟大航线」，目标当上「海盗王」。</Text>
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    container:{
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        backgroundColor: '#fafafa',
+    },
+    brifeText:{
+        fontSize: 15,
+        margin: 12,
+        color: '#323232',
+    },
+    moviewBrifeContainer:{
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        marginLeft: 12,
+        marginRight: 12,
+        marginTop: 4,
+    },
+    movieImage:{
+        width: 100,
+        aspectRatio: 0.758,
+    },
+    movieInfo:{
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        flex: 1,
+        marginLeft: 12,
+    },
+    movieDetail:{
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        marginLeft: 12,
+    },
+    movieDirector:{
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+    },
+    movieDirectorTitle:{
+        fontSize: 11,
+        color: '#646464',
+    },
+    movieDirectorText:{
+        fontSize: 11,
+        color: '#646464',
+    },
+    movieActor:{
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        marginTop: 5,
+    },
+    movieActorTitle:{
+        fontSize: 11,
+        color: '#646464',
+    },
+    movieActorText:{
+        fontSize: 11,
+        color: '#646464',
+    },
+    movieType:{
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        marginTop: 5,
+    },
+    movieTypeTitle:{
+        fontSize: 11,
+        color: '#646464',
+    },
+    movieTypeText:{
+        fontSize: 11,
+        color: '#646464',
+    },
+    movieArea:{
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        marginTop: 5,
+    },
+    movieAreaTitle:{
+        fontSize: 11,
+        color: '#646464',
+    },
+    movieAreaText:{
+        fontSize: 11,
+        color: '#646464',
+    },
+    movieYear:{
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        marginTop: 5,
+    },
+    movieYearTitle:{
+        fontSize: 11,
+        color: '#646464',
+    },
+    movieYearText:{
+        fontSize: 11,
+        color: '#646464',
+    },
+    movieSource:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        flexGrow: 1,
+    },
+    movieSource2:{
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        marginTop: 5,
+    },
+    movieSourceTitle:{
+        fontSize: 11,
+        color: '#646464',
+    },
+    movieSourceText:{
+        fontSize: 11,
+        color: '#646464',
+    },
+    movieSourceButton:{
+        fontSize: 13,
+        color: '#fff',
+    },
+    detailText:{
+        fontSize: 11,
+        marginLeft: 12,
+        marginRight: 12,
+        marginTop: 16,
+        marginBottom: 16,
+        color: '#646464',
+    },
+});
+
+
+问题
+
+是不是可以展示任意的UI？ 目前自己想的以及写的几个都是符合的，还得继续写写。
+flex layout比其它的布局要好吗？展示出来只有一层。如果用相应的RelativeLayout、LinearLayout可能就会有比较多层了。
+
+ 
+展示样式 
+
+ 
+布局分析 
+总结
+
+自己还有去细学React相关的语法，而是先学习了布局，倒不是语法不是很重要的，而是语法的学习还是应该放在实践中，当然布局也是需要多多写写才能更好的体会。大概是自己感觉先有一个总体上的了解再去学习细节可能更加有效吧。
+
+参考
+
+Facebook Android Flex布局项目 
+Google Android Flex布局项目 
+Flex 布局教程：语法篇 
+React Native官方教程 
+Facebook实现的Flex布局教程
